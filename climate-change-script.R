@@ -125,6 +125,12 @@ test_index <- createDataPartition(y, times = 1, p = 0.2, list = FALSE)
 train_set <- temp_spain_year_1800_2013 %>% slice(-test_index)
 test_set <- temp_spain_year_1800_2013 %>% slice(test_index)
 
+# plot of the 'train' and 'test' data with different colours
+ggplot(temp_spain_year_1800_2013, aes(Year)) + 
+  geom_point(aes(y = test_set$Temp, colour = "Test set")) + 
+  geom_line(aes(y = train_set$Temp, colour = "Train set")) +
+  labs(x="Year",y="Temperature (°C)")
+
 ## Method 1 : naive method, mean
 # average of the temperature ignoring the year influence
 m <- mean(train_set$Temp)
@@ -144,10 +150,10 @@ y_hat_lm <- fit_lm$coef[1] + fit_lm$coef[2]*test_set$Year
 mean((y_hat_lm - test_set$Temp)^2)
 
 # plot of the lm function with the test data
-ggplot(test_set, aes(Year)) + 
-  geom_point(aes(y = test_set$Temp, colour = "Test data")) + 
-  geom_line(aes(y = y_hat_lm, colour = "Fit lm")) +
-  labs(x="Year",y="Temperature (°C)")
+ggplot() + 
+  geom_point(data=train_set, aes(x=Year, y=Temp, colour = "Train set")) + 
+  geom_point(data=test_set, aes(x=Year, y=Temp, colour = "Test set")) +
+  labs(title="Selection of the train and test set",x="Year",y="Temperature (°C)")
 
 # plot of the lm function with the whole data
 temp_spain_year_1800_2013 %>%
