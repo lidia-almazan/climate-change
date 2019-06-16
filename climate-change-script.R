@@ -126,19 +126,25 @@ train_set <- temp_spain_year_1800_2013 %>% slice(-test_index)
 test_set <- temp_spain_year_1800_2013 %>% slice(test_index)
 
 # plot of the 'train' and 'test' data with different colours
-ggplot(temp_spain_year_1800_2013, aes(Year)) + 
-  geom_point(aes(y = test_set$Temp, colour = "Test set")) + 
-  geom_line(aes(y = train_set$Temp, colour = "Train set")) +
-  labs(x="Year",y="Temperature (°C)")
+ggplot() + 
+  geom_point(data=train_set, aes(x=Year, y=Temp, colour = "Train set")) + 
+  geom_point(data=test_set, aes(x=Year, y=Temp, colour = "Test set")) +
+  labs(title="Selection of the train and test set",x="Year",y="Temperature (°C)")
 
 ## Method 1 : naive method, mean
+
 # average of the temperature ignoring the year influence
 m <- mean(train_set$Temp)
 m
 # computing the squared loss
-mean((m - test_set$Temp)^2)
+model1_rmse <- mean((m - test_set$Temp)^2)
+
+# saving the prediction in a data frame
+rmse_results <- data_frame(Model = "1 - Mean", RMSE = model1_rmse)
+rmse_results %>% knitr::kable()
 
 ## Method 2 : least square
+
 # using least square as method for estimating the slope taking into account the 
 # year
 fit_lm <- lm(Temp ~ Year, data = train_set)
@@ -147,13 +153,18 @@ fit_lm
 # estimated temperature with the coefficients of the lm method
 y_hat_lm <- fit_lm$coef[1] + fit_lm$coef[2]*test_set$Year
 # mean squared error of the lm obtained from the train for the test method
-mean((y_hat_lm - test_set$Temp)^2)
+model2_rmse <- mean((y_hat_lm - test_set$Temp)^2)
+# saving the prediction in a data frame
+rmse_results <- bind_rows(rmse_results,
+                          data_frame(Model="2 - Least square",  
+                                     RMSE = model2_rmse ))
+rmse_results %>% knitr::kable()
 
 # plot of the lm function with the test data
-ggplot() + 
-  geom_point(data=train_set, aes(x=Year, y=Temp, colour = "Train set")) + 
-  geom_point(data=test_set, aes(x=Year, y=Temp, colour = "Test set")) +
-  labs(title="Selection of the train and test set",x="Year",y="Temperature (°C)")
+ggplot(test_set, aes(Year)) + 
+  geom_point(aes(y = test_set$Temp, colour = "Test data")) + 
+  geom_line(aes(y = y_hat_lm, colour = "Fit lm")) +
+  labs(x="Year",y="Temperature (°C)")
 
 # plot of the lm function with the whole data
 temp_spain_year_1800_2013 %>%
@@ -164,6 +175,7 @@ temp_spain_year_1800_2013 %>%
   labs(x="Year",y="Temperature (°C)")
 
 ## Method 3 : random forest
+
 # random forest model with default parameters
 fit_rf <- randomForest(Temp ~ Year , data = train_set, importance = TRUE) 
 fit_rf # number of trees used 500
@@ -174,13 +186,18 @@ plot(fit_rf)
 # output of the temp obtained from rf model in the test set
 y_hat_rf = predict(fit_rf, newdata = test_set)
 # mean squared error for rf
-mean((y_hat_rf - test_set$Temp)^2)
+model3_rmse <- mean((y_hat_rf - test_set$Temp)^2)
+# saving the prediction in a data frame
+rmse_results <- bind_rows(rmse_results,
+                          data_frame(Model="3 - Random forest",  
+                                     RMSE = model3_rmse ))
+rmse_results %>% knitr::kable()
 
 # plot of the rf method obtained with the train set applied to the test set
 test_set %>%
   mutate(y_hat_rf = predict(fit_rf, newdata = test_set)) %>% 
   ggplot() +
-  geom_point(aes(Year, Temp, colour = "Test set")) +
+  geom_point(aes(Year, Temp, colour = "Test data")) +
   geom_line(aes(Year, y_hat_rf, colour = "Fit rf")) +
   labs(x="Year",y="Temperature (°C)")
 
@@ -192,3 +209,6 @@ temp_spain_year_1800_2013 %>%
   geom_line(aes(Year, y_hat_rf, colour = "Fit rf")) +
   labs(x="Year",y="Temperature (°C)")
 
+# final results with the comparison of the three models
+# RMSE final results
+rmse_results %>% knitr::kable()
