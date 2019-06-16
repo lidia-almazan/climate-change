@@ -1,8 +1,8 @@
-########################
-# Climate change Project 
+###############################
+# Temperature evolution Project 
 # Lidia Almazan
 # 08/06/2019
-########################
+###############################
 
 ##################################
 # Analysis of the temperature data
