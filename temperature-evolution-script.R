@@ -134,10 +134,10 @@ ggplot() +
 ## Method 1 : naive method, mean
 
 # average of the temperature ignoring the year influence
-m <- mean(train_set$Temp)
-m
+mu_hat <- mean(train_set$Temp)
+mu_hat
 # computing the squared loss
-model1_rmse <- mean((m - test_set$Temp)^2)
+model1_rmse <- mean((mu_hat - test_set$Temp)^2)
 
 # saving the prediction in a data frame
 rmse_results <- data_frame(Model = "1 - Mean", RMSE = model1_rmse)
@@ -151,7 +151,7 @@ fit_lm <- lm(Temp ~ Year, data = train_set)
 fit_lm
 
 # estimated temperature with the coefficients of the lm method
-y_hat_lm <- fit_lm$coef[1] + fit_lm$coef[2]*test_set$Year
+y_hat_lm <- predict(fit_lm,test_set)
 # mean squared error of the lm obtained from the train for the test method
 model2_rmse <- mean((y_hat_lm - test_set$Temp)^2)
 # saving the prediction in a data frame
@@ -195,7 +195,7 @@ rmse_results %>% knitr::kable()
 
 # plot of the rf method obtained with the train set applied to the test set
 test_set %>%
-  mutate(y_hat_rf = predict(fit_rf, newdata = test_set)) %>% 
+  mutate(y_hat_rf) %>% 
   ggplot() +
   geom_point(aes(Year, Temp, colour = "Test data")) +
   geom_line(aes(Year, y_hat_rf, colour = "Fit rf")) +
