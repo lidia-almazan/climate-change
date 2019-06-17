@@ -161,9 +161,11 @@ rmse_results <- bind_rows(rmse_results,
 rmse_results %>% knitr::kable()
 
 # plot of the lm function with the test data
-ggplot(test_set, aes(Year)) + 
-  geom_point(aes(y = test_set$Temp, colour = "Test data")) + 
-  geom_line(aes(y = y_hat_lm, colour = "Fit lm")) +
+test_set %>%
+  mutate(y_hat_lm) %>% 
+  ggplot() +
+  geom_point(aes(Year, Temp, colour = "Test data")) +
+  geom_line(aes(Year, y_hat_lm, colour = "Fit lm")) +
   labs(x="Year",y="Temperature (°C)")
 
 # plot of the lm function with the whole data
