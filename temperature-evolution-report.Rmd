@@ -2,7 +2,7 @@
 title: "Temperature evolution Report"
 author: "Lidia Almazan"
 date: "16 June 2019"
-output: github_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
