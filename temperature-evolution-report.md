@@ -483,6 +483,6 @@ Conclusions
 
 The study of the climate change is more complex than just evaluating the average temperature of a country along the years. Would be more interesting the study of the gradient of temperature, because this would give us an idea of the extremes of the temperature. Also would be interesting a deeper analysis comparing many countries along the planet and different cities inside the same country.
 
-However, with the analysis of the behaviour of the average temperature in the last 200 years in Spain, we have seen how there is an increase tendency that could be influenced by many factors related with the climate change. However, there is a clear increase of 1°C in the average temperature in the last 200 years, and from the data analysis we have seen that the increase is stronger in the last 50 years.
+However, there is a clear increase of 1°C in the average temperature in the last 200 years in Spain, and from the data analysis we have seen that the increase is stronger in the last 50 years. Of course, that could be influenced by many factors related with the climate change and we cannot conclude the reason but the fact.
 
 The machine learning models used for predicting the temperature along the years give us an RMSE of 0.184°C using the random forest method, which is under my point of view a good error without having a big number of data points to train and test.
