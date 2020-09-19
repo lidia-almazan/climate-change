@@ -3,7 +3,9 @@ Temperature evolution Report
 Lidia Almazan
 16 June 2019
 
-This work shows my first Capstone project thought and made by myself for the last course of the **HarvardX Data Science Professional Certificate** which is a series of career-oriented courses to develop in-demand skills of Data Science using the programming language R. I hope you enjoy reading as much as I enjoyed doing it.
+This work shows my first Capstone project thought and made by myself for the last course of the **HarvardX Data Science Professional Certificate** which is a series of career-oriented courses to develop in-demand skills of Data Science using the programming language R. 
+
+I hope you enjoy reading it as much as I enjoyed doing it.
 
 Introduction
 ============
@@ -141,7 +143,7 @@ summary(temp_country_spain)
     ##  Algeria    :   0  
     ##  (Other)    :   0
 
-The data is from the first of November of 1743, and we have 3166 registered temperatures. In the Spanish case the minimum average temperature is 2°C and the maximum 26°C with a mean of 14°C.
+The data is from the first of November of 1743, and we have 3166 registered temperatures. In the case of Spain the minimum average temperature is 2°C and the maximum 26°C with a mean of 14°C.
 
 We select only the data from 1800 until 2013 and we group it by year indepentdly of the month, averaging all the month of the same year.
 
@@ -195,7 +197,7 @@ ggplot(temp_spain_month, aes(x=Month.Name,y=Temp)) +
 
 ![](temperature-evolution-report_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
-We can clearly see that the coldest months of the year in Spain are in December and January and the hottest are in July and August. But this plot is an average for all the years, plotting the evolution of the average temperature by month for all the years, we observe that the temperature has a small scater and also there is an increasing tendence in the last 50 years.
+We can clearly see that the coldest months of the year in Spain are in December and January and the hottest are in July and August. This plot is an average for the whole period of time. However, plotting the evolution of the average temperature by month for all the years, we observe that the temperature has a small scater and also there is an increasing tendence in the last 50 years.
 
 ``` r
 temp_spain_month_1800_2013 <- temp_country_spain %>% 
